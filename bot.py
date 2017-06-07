@@ -36,11 +36,11 @@ def isop(user):
 
 
 
-#def pts(username):
+
 ch = 0
 coolch = "КРУТО!"
 i = 0
-#modslist = ""
+
 
 
 
