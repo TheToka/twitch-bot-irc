@@ -5,7 +5,7 @@ from time import sleep
 
 #Acc
 HOST = "irc.twitch.tv"
-NICK = "TheTokaBot"
+NICK = "bot name"
 PORT = 6667
 PASS = "oauth:" + ""
 readbuffer = ""
@@ -15,7 +15,7 @@ oplist = {}
 
 
 
-namechunel = "mrtokaa"
+namechunel = "chunnel name"
 
 
 
