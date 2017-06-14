@@ -176,7 +176,8 @@ while True:
                             Send_message(username + " you mmr = " + str(pts) + " PogChamp")
                         if pts < 2500:
                             Send_message(username + " you mmr = " + str(pts) + " SMOrc ")
-                        Send_message(username + " you mmr = " + str(pts))
+                        if pts > 2501 and pts < 6999:
+                            Send_message(username + " you mmr = " + str(pts))
 
                     if message == ("!камень"):
                         random.seed()
