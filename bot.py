@@ -12,40 +12,38 @@ readbuffer = ""
 MODT = False
 
 oplist = {}
+namechannel = "channel name"
 
+def connect(host, port):
+    s = socket.socket()
+    s.connect((host, port))
+    return s
 
+def joinChannel(s, channel):
+    s.send("JOIN #" + channel + " \r\n")
 
-namechunel = "chunnel name"
+def auth(s, passwd):
+    s.send("PASS " + passwd + "\r\n")
 
-
-
-#connect
-s = socket.socket()
-s.connect((HOST, PORT))
-s.send("PASS " + PASS + "\r\n")
-s.send("NICK " + NICK + "\r\n")
-s.send("JOIN #" + namechunel + " \r\n")
-
-
-def Send_message(message):
-    s.send("PRIVMSG #" + namechunel + " :" + message + "\r\n")
-
+def setNickname(s, nickname):
+    s.send("NICK " + nickname + "\r\n")
 
 def isop(user):
     return user in oplist
-
-
-
 
 ch = 0
 coolch = "КРУТО!"
 i = 0
 
+sock = connect(HOST, PORT)
+auth(sock, PASS)
+setNickname(sock, NICK)
+joinChannel(sock, namechannel)
 
+def Send_message(message):
+    sock.send("PRIVMSG #" + namechannel + " :" + message + "\r\n")
 
-
-
-url = "http://tmi.twitch.tv/group/user/" + namechunel + "/chatters"
+url = "http://tmi.twitch.tv/group/user/" + namechannel + "/chatters"
 req = urllib2.Request(url, headers={"accept": "*/*"})
 res = urllib2.urlopen(req).read()
 
@@ -70,7 +68,7 @@ def fillOpList():
 #    return
 
 
-def viwewrlist():
+def viewerlist():
     viewerlist = ""
     try:
         if res.find("502 bad gateway") == - 1:
@@ -108,16 +106,24 @@ def modslist():
 
 
 while True:
-    readbuffer += s.recv(1024)
+    bufferSize = 1024
+    data = sock.recv(bufferSize)
+    readbuffer += data
     temp = string.split(readbuffer, "\n")
     readbuffer = temp.pop()
 
-
+    if len(data.rstrip()) == 0:
+        print('Connection was lost, reconnecting')
+        sock.close()
+        sock = connect(HOST, PORT)
+        auth(sock, PASS)
+        setNickname(sock, NICK)
+        joinChannel(sock, namechannel)
 
     for line in temp:
 
         if (line[0] == "PING"):
-            s.send("PONG %s\r\n" % line[1])
+            sock.send("PONG %s\r\n" % line[1])
         else:
 
             parts = string.split(line, ":")
@@ -146,7 +152,7 @@ while True:
                         Send_message("/timeout " + username + " 30")
 
                     if message == "!uptime":
-                        uptime = urllib2.urlopen("https://decapi.me/twitch/uptime?channel=" + namechunel).read()
+                        uptime = urllib2.urlopen("https://decapi.me/twitch/uptime?channel=" + namechannel).read()
                         Send_message(uptime)
 
                     if message == "!time":
