@@ -5,47 +5,41 @@ from time import sleep
 
 #Acc
 HOST = "irc.twitch.tv"
-NICK = "bot name"
+NICK = "TheTokaBot"
 PORT = 6667
-PASS = "oauth:" + ""
+PASS = "oauth:" + "5fgbk6qhy9y62nxgcnk4oiwngz7hnn"
 readbuffer = ""
 MODT = False
 
 oplist = {}
+namechannel = "mrtokaa"
 
+def connect(host, port):
+    s = socket.socket()
+    s.connect((host, port))
+    return s
 
+def joinChannel(s, channel):
+    s.send("JOIN #" + channel + " \r\n")
 
-namechunel = "chunnel name"
-
-
-
-#connect
-s = socket.socket()
-s.connect((HOST, PORT))
-s.send("PASS " + PASS + "\r\n")
-s.send("NICK " + NICK + "\r\n")
-s.send("JOIN #" + namechunel + " \r\n")
-
+def setNickname(s, nickname):
+    s.send("NICK " + nickname + "\r\n")
 
 def Send_message(message):
-    s.send("PRIVMSG #" + namechunel + " :" + message + "\r\n")
-
+    s.send("PRIVMSG #" + namechannel + " :" + message + "\r\n")
 
 def isop(user):
     return user in oplist
-
-
-
 
 ch = 0
 coolch = "КРУТО!"
 i = 0
 
+S = connect(HOST, PORT)
+setNickname(S, NICK)
+joinChannel(S, namechannel)
 
-
-
-
-url = "http://tmi.twitch.tv/group/user/" + namechunel + "/chatters"
+url = "http://tmi.twitch.tv/group/user/" + namechannel + "/chatters"
 req = urllib2.Request(url, headers={"accept": "*/*"})
 res = urllib2.urlopen(req).read()
 
@@ -108,11 +102,18 @@ def modslist():
 
 
 while True:
-    readbuffer += s.recv(1024)
+    bufferSize = 1024
+    data = S.recv(bufferSize)
+    readbuffer += data
     temp = string.split(readbuffer, "\n")
     readbuffer = temp.pop()
 
-
+    if len(data.rstrip()) == 0:
+        print('Connection was lost, reconnecting')
+        S.close()
+        S = connect(HOST, PORT)
+        setNickname(S, NICK)
+        joinChannel(S, namechannel)
 
     for line in temp:
 
@@ -146,7 +147,7 @@ while True:
                         Send_message("/timeout " + username + " 30")
 
                     if message == "!uptime":
-                        uptime = urllib2.urlopen("https://decapi.me/twitch/uptime?channel=" + namechunel).read()
+                        uptime = urllib2.urlopen("https://decapi.me/twitch/uptime?channel=" + namechannel).read()
                         Send_message(uptime)
 
                     if message == "!time":
@@ -178,6 +179,12 @@ while True:
                             Send_message(username + " you mmr = " + str(pts) + " SMOrc ")
                         if pts > 2501 and pts < 6999:
                             Send_message(username + " you mmr = " + str(pts))
+
+                    def dummy(current, win):
+                        random.seed()
+                        num = random.randint(1, 3)
+
+
 
                     if message == ("!камень"):
                         random.seed()
