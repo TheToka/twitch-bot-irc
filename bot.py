@@ -255,6 +255,9 @@ while True:
 
                     if message == "rmp":
                         Send_message("-_-")
+                    
+                    if message == "!bot":
+                        Send_message("https://github.com/TheToka/TheTokaBot-twitch-bot")
 
                 for l in parts:
                     if "End of /NAMES list" in l:
