@@ -5,14 +5,14 @@ from time import sleep
 
 #Acc
 HOST = "irc.twitch.tv"
-NICK = "TheTokaBot"
+NICK = "bot name"
 PORT = 6667
-PASS = "oauth:" + "5fgbk6qhy9y62nxgcnk4oiwngz7hnn"
+PASS = "oauth:" + ""
 readbuffer = ""
 MODT = False
 
 oplist = {}
-namechannel = "mrtokaa"
+namechannel = "channel name"
 
 def connect(host, port):
     s = socket.socket()
@@ -22,11 +22,11 @@ def connect(host, port):
 def joinChannel(s, channel):
     s.send("JOIN #" + channel + " \r\n")
 
+def auth(s, passwd):
+    s.send("PASS " + passwd + "\r\n")
+
 def setNickname(s, nickname):
     s.send("NICK " + nickname + "\r\n")
-
-def Send_message(message):
-    s.send("PRIVMSG #" + namechannel + " :" + message + "\r\n")
 
 def isop(user):
     return user in oplist
@@ -35,9 +35,13 @@ ch = 0
 coolch = "КРУТО!"
 i = 0
 
-S = connect(HOST, PORT)
-setNickname(S, NICK)
-joinChannel(S, namechannel)
+sock = connect(HOST, PORT)
+auth(sock, PASS)
+setNickname(sock, NICK)
+joinChannel(sock, namechannel)
+
+def Send_message(message):
+    sock.send("PRIVMSG #" + namechannel + " :" + message + "\r\n")
 
 url = "http://tmi.twitch.tv/group/user/" + namechannel + "/chatters"
 req = urllib2.Request(url, headers={"accept": "*/*"})
@@ -64,7 +68,7 @@ def fillOpList():
 #    return
 
 
-def viwewrlist():
+def viewerlist():
     viewerlist = ""
     try:
         if res.find("502 bad gateway") == - 1:
@@ -103,22 +107,23 @@ def modslist():
 
 while True:
     bufferSize = 1024
-    data = S.recv(bufferSize)
+    data = sock.recv(bufferSize)
     readbuffer += data
     temp = string.split(readbuffer, "\n")
     readbuffer = temp.pop()
 
     if len(data.rstrip()) == 0:
         print('Connection was lost, reconnecting')
-        S.close()
-        S = connect(HOST, PORT)
-        setNickname(S, NICK)
-        joinChannel(S, namechannel)
+        sock.close()
+        sock = connect(HOST, PORT)
+        auth(sock, PASS)
+        setNickname(sock, NICK)
+        joinChannel(sock, namechannel)
 
     for line in temp:
 
         if (line[0] == "PING"):
-            s.send("PONG %s\r\n" % line[1])
+            sock.send("PONG %s\r\n" % line[1])
         else:
 
             parts = string.split(line, ":")
@@ -179,12 +184,6 @@ while True:
                             Send_message(username + " you mmr = " + str(pts) + " SMOrc ")
                         if pts > 2501 and pts < 6999:
                             Send_message(username + " you mmr = " + str(pts))
-
-                    def dummy(current, win):
-                        random.seed()
-                        num = random.randint(1, 3)
-
-
 
                     if message == ("!камень"):
                         random.seed()
