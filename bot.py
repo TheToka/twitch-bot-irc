@@ -232,9 +232,6 @@ while True:
                     if message == ("!commands"):
                         Send_message("!хей, !timeout, !uptime, !time, !myicq, !pidor, !mymmr, !камень, !ножницы, !бумага, !commands")
 
-                    if message == "нереклама":
-                        Send_message("https://www.twitch.tv/simon_madfm")
-
                     if message == "ЧЕЧНЯ":
                         Send_message(coolch)
                         ch +=1
