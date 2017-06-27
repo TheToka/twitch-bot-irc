@@ -52,25 +52,6 @@ url = "http://tmi.twitch.tv/group/user/" + namechannel + "/chatters"
 req = urllib2.Request(url, headers={"accept": "*/*"})
 res = urllib2.urlopen(req).read()
 
-def fillOpList():
-
-    try:
-        if res.find("502 bad gateway") == - 1:
-            oplist.clear()
-            data = json.loads(res)
-            for p in data["chatters"]["global_mods"]:
-                oplist[p] = "global_mod"
-            for p in data["chatters"]["admins"]:
-                oplist[p] = "admin"
-            for p in data["chatters"]["staff"]:
-                oplist[p] = "staff"
-            for p in data["chatters"]["viewers"]:
-                oplist[p] = "viewer"
-
-
-    except:
-        "Error.."
-#    return
 
 
 def viewerlist():
