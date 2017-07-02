@@ -39,6 +39,8 @@ def isop(user):
 ch = 0
 coolch = "КРУТО!"
 i = 0
+fort = 0
+
 
 sock = connect(HOST, PORT)
 auth(sock, PASS)
@@ -168,7 +170,7 @@ while True:
                             Send_message(username + " you mmr = " + str(pts) + " PogChamp")
                         if pts < 2500:
                             Send_message(username + " you mmr = " + str(pts) + " SMOrc ")
-                        if pts > 2501 and pts < 6999:
+                        else:
                             Send_message(username + " you mmr = " + str(pts))
 
                     if message == ("!камень"):
@@ -238,6 +240,13 @@ while True:
                     
                     if message == "!bot":
                         Send_message("https://github.com/TheToka/TheTokaBot-twitch-bot")
+                        
+                    if message == "!форт":
+                        fort += 1
+                        Send_message("Прогресс: " + str(fort) + "%")
+                        if fort == 100:
+                            Send_message("Прогресс: 100%, вы закончили форт")
+                            fort = 0
 
                 for l in parts:
                     if "End of /NAMES list" in l:
