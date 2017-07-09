@@ -40,7 +40,8 @@ ch = 0
 coolch = "КРУТО!"
 i = 0
 fort = 0
-
+spisok = []
+schetspisok = 0
 
 sock = connect(HOST, PORT)
 auth(sock, PASS)
@@ -133,6 +134,26 @@ while True:
                     ##########------COMMANDS-------#########
                     ########################################
 
+                    f message == "!add":
+                        spisok.append(username) #список
+                        schetspisok += 1 #счетчик
+
+
+                    if message == "!out":                        
+                        Send_message(str(spisok)) #вывод списка
+                        sleep(1)
+                        Send_message(str(schetspisok))
+
+
+                    if message == "!win":
+                        random.seed()
+                        rndkon = random.randint(0, schetspisok) #рандомный элемент списка
+                        Send_message(spisok[rndkon - 1])
+
+                    if message == "!clear":
+                        del spisok[:]
+                    
+                    
                     if message == ("!хей"):
                         Send_message("Добро пожаловать, " + username)
 
