@@ -134,7 +134,7 @@ while True:
                     ##########------COMMANDS-------#########
                     ########################################
 
-                    f message == "!add":
+                    if message == "!add":
                         spisok.append(username) #список
                         schetspisok += 1 #счетчик
 
