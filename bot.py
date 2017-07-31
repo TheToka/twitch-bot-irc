@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import socket
-import string
-import urllib2
-import time
-import json
-import random
+import socket, string, urllib2, time, json, random
 from time import sleep
 
 #Acc
 HOST = "irc.twitch.tv"
-NICK = "BotName"
+NICK = "thetokabot"
 PORT = 6667
-PASS = "oauth:" + ""
+PASS = "oauth:" + "5fgbk6qhy9y62nxgcnk4oiwngz7hnn"
 readbuffer = ""
 MODT = False
 
 oplist = {}
-namechannel = "Channel name"
+namechannel = "mrtokaa"
 
 def connect(host, port):
     s = socket.socket()
@@ -43,6 +38,7 @@ fort = 0
 spisok = []
 schetspisok = 0
 
+
 sock = connect(HOST, PORT)
 auth(sock, PASS)
 setNickname(sock, NICK)
@@ -55,6 +51,25 @@ url = "http://tmi.twitch.tv/group/user/" + namechannel + "/chatters"
 req = urllib2.Request(url, headers={"accept": "*/*"})
 res = urllib2.urlopen(req).read()
 
+def fillOpList():
+
+    try:
+        if res.find("502 bad gateway") == - 1:
+            oplist.clear()
+            data = json.loads(res)
+            for p in data["chatters"]["global_mods"]:
+                oplist[p] = "global_mod"
+            for p in data["chatters"]["admins"]:
+                oplist[p] = "admin"
+            for p in data["chatters"]["staff"]:
+                oplist[p] = "staff"
+            for p in data["chatters"]["viewers"]:
+                oplist[p] = "viewer"
+
+
+    except:
+        "Error.."
+#    return
 
 
 def viewerlist():
@@ -152,9 +167,8 @@ while True:
 
                     if message == "!clear":
                         del spisok[:]
-                    
-                    
-                    if message == ("!хей"):
+
+                    if message == "!хей":
                         Send_message("Добро пожаловать, " + username)
 
                     if message == "!timeout":
@@ -171,22 +185,28 @@ while True:
                         random.seed(username)
                         Send_message(username + ", you icq = " + str(random.randint(1, 210)))
 
-                    if message == ("mods"):
+                    if message == "mods":
                         Send_message(modslist())
 
-                    if message == ("!а может ли бот написать симфонию?"):
+                    if message == "!а может ли бот написать симфонию?":
                         Send_message("Симфония")
 
-                    if message == ("!true_noirhat"):
+                    if message == "!true_noirhat":
                         Send_message("God!")
 
-                    if message == ("!pidor"):
+                    if message == "!pidor":
                         random.seed(username)
-                        Send_message(username + " - пидор на " + str(random.randint(0, 100)) + "%")
+                        if username == "mrtokaa":
+                            Send_message(username + "Не пидор!")
+                        else:
+                            Send_message(username + " - пидор на " + str(random.randint(0, 100)) + "%")
                         
-                    if message == ("!mymmr"):
+                    if message == "!mymmr":
                         random.seed(username)
-                        pts = random.randint(1, 9500)
+                        pts = random.randint(1, 10024)
+                        if username == "mrtokaa":
+                            Send_message(username + " you mmr = " + "9117" + " PogChamp")
+
                         if pts > 7000:
                             Send_message(username + " you mmr = " + str(pts) + " PogChamp")
                         if pts < 2500:
@@ -194,7 +214,7 @@ while True:
                         else:
                             Send_message(username + " you mmr = " + str(pts))
 
-                    if message == ("!камень"):
+                    if message == "!камень":
                         random.seed()
                         igr = random.randint(1, 3)
                         if igr == 1:
@@ -205,7 +225,7 @@ while True:
                             Send_message("бумага! Ты проиграл!")
                             Send_message("/timeout " + username + " 10")
 
-                    if message == ("!ножницы"):
+                    if message == "!ножницы":
                         random.seed()
                         igr = random.randint(1, 3)
                         if igr == 1:
@@ -216,7 +236,7 @@ while True:
                             Send_message("бумага! Я проиграл")
                             Send_message("/timeout " + username + " 10")
 
-                    if message == ("!бумага"):
+                    if message == "!бумага":
                         random.seed()
                         igr = random.randint(1, 3)
                         if igr == 1:
@@ -227,23 +247,23 @@ while True:
                         if igr == 3:
                             Send_message("бумага! Ничья")
 
-                    if message == ("!срань"):
+                    if message == "!срань":
                         Send_message("https://github.com/Winetricks/winetricks/blob/master/src/winetricks")
 
-                    if message == ("off-qqwwq") and isop(username):
+                    if message == ("off-qqwwq") and username == namechannel:
                         exit()
 
-                    if message == ("!commands"):
-                        Send_message("!хей, !timeout, !uptime, !time, !myicq, !pidor, !mymmr, !камень, !ножницы, !бумага, !commands")
+                    if message == "!commands":
+                        Send_message("!хей, !timeout, !uptime, !time, !myicq, !pidor, !mymmr, !камень, !ножницы, !бумага, !commands, !bot ")
 
-                    if message == "ЧЕЧНЯ":
-                        Send_message(coolch)
+                    if message == "нереклама":
+                        Send_message("https://www.twitch.tv/simon_madfm")
+
+                    if "ечня" in message:
+                        Send_message("ЧЕЧНЯ - " + coolch)
                         ch +=1
                         if ch >= 10:
                             coolch = "ЛУЧШАЯ!"
-
-                    if message == "ЧЕЧЕНЯ":
-                        Send_message(coolch)
 
                     if message == "!СУПЕРЧЕЧНЯ":
                         while i < 6:
@@ -256,18 +276,25 @@ while True:
                     if message == "Саймон":
                         Send_message("Верстальщик срани")
 
-                    if message == "казахи":
-                        Send_message("Сверхлюди")
+                    if "каза*" in message:
+                        Send_message("Казахи - Сверхлюди")
+
+                    if "rmp" in message:
+                        Send_message("-_-")
                     
                     if message == "!bot":
                         Send_message("https://github.com/TheToka/TheTokaBot-twitch-bot")
-                        
+
                     if message == "!форт":
                         fort += 1
                         Send_message("Прогресс: " + str(fort) + "%")
                         if fort == 100:
                             Send_message("Прогресс: 100%, вы закончили форт")
                             fort = 0
+
+                    if message == "!followtime":
+                        ft = urllib2.urlopen("https://beta.decapi.me/twitch/followage/" + namechannel + "/" + username).read()
+                        Send_message("u follow: " + str(ft))
 
                 for l in parts:
                     if "End of /NAMES list" in l:
