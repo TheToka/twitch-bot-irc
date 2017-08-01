@@ -5,14 +5,14 @@ from time import sleep
 
 #Acc
 HOST = "irc.twitch.tv"
-NICK = "thetokabot"
+NICK = "name"
 PORT = 6667
-PASS = "oauth:" + "5fgbk6qhy9y62nxgcnk4oiwngz7hnn"
+PASS = "oauth:" + ""
 readbuffer = ""
 MODT = False
 
 oplist = {}
-namechannel = "mrtokaa"
+namechannel = ""
 
 def connect(host, port):
     s = socket.socket()
