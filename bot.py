@@ -196,7 +196,7 @@ while True:
 
                     if message == "!pidor":
                         random.seed(username)
-                        if username == "mrtokaa":
+                        if username == namechannel:
                             Send_message(username + "Не пидор!")
                         else:
                             Send_message(username + " - пидор на " + str(random.randint(0, 100)) + "%")
@@ -204,7 +204,7 @@ while True:
                     if message == "!mymmr":
                         random.seed(username)
                         pts = random.randint(1, 10024)
-                        if username == "mrtokaa":
+                        if username == namechannel:
                             Send_message(username + " you mmr = " + "9117" + " PogChamp")
 
                         if pts > 7000:
