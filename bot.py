@@ -149,6 +149,19 @@ while True:
                     ##########------COMMANDS-------#########
                     ########################################
 
+                    
+					if message == "!mus":
+						urlvk = 'https://m.vk.com/ggwplanayatv' # только в m.vk.com!!!
+						fvk = urllib2.urlopen(urlvk)
+						content = fvk.read().decode('utf-8')
+						music = r'<div class="pp_status">(.*)</div>'
+						pars = re.findall(music, content)
+						pars = ''.join(pars)
+						pars = pars.encode('utf-8')
+						Send_message(pars)
+						print pars
+                    
+                    
                     if message == "!add":
                         spisok.append(username) #список
                         schetspisok += 1 #счетчик
