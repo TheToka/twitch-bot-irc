@@ -181,12 +181,6 @@ while True:
                     if message == "!clear":
                         del spisok[:]
 
-                    if message == "!хей":
-                        Send_message("Добро пожаловать, " + username)
-
-                    if message == "!timeout":
-                        Send_message("/timeout " + username + " 30")
-
                     if message == "!uptime":
                         uptime = urllib2.urlopen("https://decapi.me/twitch/uptime?channel=" + namechannel).read()
                         Send_message(uptime)
@@ -200,12 +194,6 @@ while True:
 
                     if message == "mods":
                         Send_message(modslist())
-
-                    if message == "!а может ли бот написать симфонию?":
-                        Send_message("Симфония")
-
-                    if message == "!true_noirhat":
-                        Send_message("God!")
 
                     if message == "!pidor":
                         random.seed(username)
@@ -269,9 +257,6 @@ while True:
                     if message == "!commands":
                         Send_message("!хей, !timeout, !uptime, !time, !myicq, !pidor, !mymmr, !камень, !ножницы, !бумага, !commands, !bot ")
 
-                    if message == "нереклама":
-                        Send_message("https://www.twitch.tv/simon_madfm")
-
                     if "ечня" in message:
                         Send_message("ЧЕЧНЯ - " + coolch)
                         ch +=1
@@ -282,15 +267,6 @@ while True:
                         while i < 6:
                             i+=1
                             Send_message("ЧЕЧНЯ - " + coolch)
-
-                    if message == "АЛЛАХ":
-                        Send_message("КРУТО")
-
-                    if message == "Саймон":
-                        Send_message("Верстальщик срани")
-
-                    if "каза*" in message:
-                        Send_message("Казахи - Сверхлюди")
 
                     if "rmp" in message:
                         Send_message("-_-")
