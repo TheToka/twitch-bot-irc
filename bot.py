@@ -222,18 +222,18 @@ while True:
 				if igr == 3:
 				    Send_message("бумага! Ничья")
 
-                    if message == ("off-qqwwq") and username == namechannel:
-                        exit()
+                   	if message == ("off-qqwwq") and username == namechannel:
+                        	exit()
 
-                    if message == "!commands":
-                        Send_message("!хей, !timeout, !uptime, !time, !myicq, !pidor, !mymmr, !камень, !ножницы, !бумага, !commands, !bot ")
-                    
-                    if message == "!bot":
-                        Send_message("https://github.com/TheToka/TheTokaBot-twitch-bot")
+		   	if message == "!commands":
+				Send_message("!хей, !timeout, !uptime, !time, !myicq, !pidor, !mymmr, !камень, !ножницы, !бумага, !commands, !bot ")
 
-                    if message == "!followtime":
-                        ft = urllib2.urlopen("https://beta.decapi.me/twitch/followage/" + namechannel + "/" + username).read()
-                        Send_message("u follow: " + str(ft))
+		   	if message == "!bot":
+				Send_message("https://github.com/TheToka/TheTokaBot-twitch-bot")
+
+		   	if message == "!followtime":
+				ft = urllib2.urlopen("https://beta.decapi.me/twitch/followage/" + namechannel + "/" + username).read()
+				Send_message("u follow: " + str(ft))
 
                 for l in parts:
                     if "End of /NAMES list" in l:
